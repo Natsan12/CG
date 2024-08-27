@@ -2,14 +2,14 @@ using UnityEngine;
 
 public class ElaraMovement : MonoBehaviour
 {
-    public float moveSpeed = 5f;  // Velocidad de movimiento
-    public float turnSpeed = 10f; // Velocidad de giro
+    public float moveSpeed = 20f;  // Velocidad de movimiento
+    public float turnSpeed;  // Velocidad de giro
     public float jumpForce = 5f;  // Fuerza del salto
 
     private Animator animator; // Referencia al Animator
     private Rigidbody rb;      // Referencia al Rigidbody
 
-    private bool isGrounded = true; // Para verificar si el personaje está en el suelo
+    private bool isGrounded = true; // Para verificar si el personaje estï¿½ en el suelo
 
     private void Start()
     {
@@ -37,7 +37,7 @@ public class ElaraMovement : MonoBehaviour
         float vertical = Input.GetAxis("Vertical");
 
         // Crear un vector de movimiento basado en las entradas
-        Vector3 movement = new Vector3(horizontal, 0, vertical).normalized;
+        Vector3 movement = new Vector3(horizontal, 0, vertical);//.normalized;
 
         // Verificar si hay movimiento
         if (movement.magnitude >= 0.1f)
@@ -45,30 +45,30 @@ public class ElaraMovement : MonoBehaviour
             // Mueve al personaje
             rb.MovePosition(transform.position + movement * moveSpeed * Time.deltaTime);
 
-            // Gira el personaje hacia la dirección de movimiento
+            // Gira el personaje hacia la direcciï¿½n de movimiento
             Quaternion targetRotation = Quaternion.LookRotation(movement);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, turnSpeed * Time.deltaTime);
 
-            // Activar animación de correr
+            // Activar animaciï¿½n de correr
             animator.SetBool("isRunning", true);
         }
         else
         {
-            // Detener la animación de correr
+            // Detener la animaciï¿½n de correr
             animator.SetBool("isRunning", false);
         }
     }
 
     private void HandleJump()
     {
-        // Verificar si el personaje está en el suelo antes de saltar
+        // Verificar si el personaje estï¿½ en el suelo antes de saltar
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
             // Aplicar fuerza para el salto
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-            isGrounded = false; // El personaje ya no está en el suelo
+            isGrounded = false; // El personaje ya no estï¿½ en el suelo
 
-            // Activar la animación de salto
+            // Activar la animaciï¿½n de salto
             animator.SetTrigger("jump");
         }
     }
@@ -90,7 +90,7 @@ public class ElaraMovement : MonoBehaviour
         }
     }
 
-    // Método para detectar cuando el personaje toca el suelo
+    // Mï¿½todo para detectar cuando el personaje toca el suelo
     private void OnCollisionEnter(Collision collision)
     {
         // Verificar si el personaje ha tocado el suelo
@@ -100,9 +100,9 @@ public class ElaraMovement : MonoBehaviour
         }
     }
 
-    // Método que puede ser llamado por otro script para activar la animación de recibir un golpe
+    // Mï¿½todo que puede ser llamado por otro script para activar la animaciï¿½n de recibir un golpe
     public void ReceiveHit()
     {
-        animator.SetTrigger("receiveHit"); // Activar la animación de recibir un golpe
+        animator.SetTrigger("receiveHit"); // Activar la animaciï¿½n de recibir un golpe
     }
 }

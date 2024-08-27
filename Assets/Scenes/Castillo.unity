@@ -5032,7 +5032,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 64
   m_CollisionDetection: 0
 --- !u!114 &728391611
 MonoBehaviour:
@@ -5046,9 +5046,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 464bb83f34661634b93b198aebc34760, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 20
   turnSpeed: 10
-  jumpForce: 5
+  jumpForce: 6
 --- !u!95 &728391612
 Animator:
   serializedVersion: 5
@@ -16889,7 +16889,6 @@ GameObject:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 1118915246}
   - {fileID: 276283480}
   - {fileID: 1708852358}
   - {fileID: 477745287}
@@ -16898,5 +16897,6 @@ SceneRoots:
   - {fileID: 1950377715}
   - {fileID: 647181290}
   - {fileID: 728391607}
+  - {fileID: 1118915246}
   - {fileID: 286900837}
   - {fileID: 345350069}
