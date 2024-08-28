@@ -4957,7 +4957,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 728391607}
-  - component: {fileID: 728391611}
+  - component: {fileID: 728391616}
+  - component: {fileID: 728391613}
+  - component: {fileID: 728391615}
+  - component: {fileID: 728391614}
   - component: {fileID: 728391610}
   - component: {fileID: 728391609}
   - component: {fileID: 728391612}
@@ -5032,23 +5035,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 64
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!114 &728391611
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728391606}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 464bb83f34661634b93b198aebc34760, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 20
-  turnSpeed: 10
-  jumpForce: 6
 --- !u!95 &728391612
 Animator:
   serializedVersion: 5
@@ -5070,6 +5058,60 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &728391613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728391606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cce339b5fdf796148a1208085519893a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementInput: {x: 0, y: 0}
+--- !u!114 &728391614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728391606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a840da20e0330e9479ff09895b73abe5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &728391615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728391606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 54e512179f07bf448b18f1e4c11f48ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 7
+  rotationSpeed: 15
+--- !u!114 &728391616
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 728391606}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 464bb83f34661634b93b198aebc34760, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 20
+  turnSpeed: 0
+  jumpForce: 5
 --- !u!1001 &729498565
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7252,7 +7294,7 @@ GameObject:
   - component: {fileID: 1118915244}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16890,6 +16932,7 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 276283480}
+  - {fileID: 1118915246}
   - {fileID: 1708852358}
   - {fileID: 477745287}
   - {fileID: 952149628}
@@ -16897,6 +16940,5 @@ SceneRoots:
   - {fileID: 1950377715}
   - {fileID: 647181290}
   - {fileID: 728391607}
-  - {fileID: 1118915246}
   - {fileID: 286900837}
   - {fileID: 345350069}
