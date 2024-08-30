@@ -15,7 +15,8 @@ public class PlayerManager3rd : MonoBehaviour
 
     private void Update()
     {
-        inputManager3rd.HandleAllInput(); // call HandleAllInputs() on inputManager3rd
+        inputManager3rd.handleAllInpunts(); // O bien HandleAllInputs() si lo renombraste
+
     }
 
     // Fixed Update update at a fixed step defined in the editor

@@ -1,78 +1,88 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerMovement3rd : MonoBehaviour
 {
-    InputManager3rd inputManager; // to reference the InputManager Script
-    Vector3 moveDirection; // to store the direction of the movement
-    Transform cameraObject; // to reference the camera
-    Rigidbody playerRigidbody; // to reference a Rigidbody component to handle physics
-    public float movementSpeed = 7; // to control the movement speed
-    public float rotationSpeed = 15; // to control the rotation speed
+    InputManager3rd inputManager; // para referenciar el script InputManager3rd
+    Vector3 moveDirection; // para almacenar la dirección del movimiento
+    Transform cameraObject; // para referenciar la cámara
+    Rigidbody playerRigidbody;
+    public float walkingSpeed = 2.5f;
+    public float runningSpeed = 7;
+    //public float jumpingSpeed = 10;
+    //public float attackedKickSpeed = 1;
+    //public float attackedSwordSpeed = 1;
 
+    public float rotationSpeed = 15; // para controlar la velocidad de rotación
 
+    public bool isRunning   ;
     private void Awake()
     {
-        inputManager = GetComponent<InputManager3rd>(); // get the InputManager3rd component
-        playerRigidbody = GetComponent<Rigidbody>(); // get the Rigidbody component
-        cameraObject = Camera.main.transform; // scan the scene for the main camera
-       
-
-
+        inputManager = GetComponent<InputManager3rd>(); // obtener el componente InputManager3rd
+        playerRigidbody = GetComponent<Rigidbody>(); // obtener el componente Rigidbody
+        cameraObject = Camera.main.transform; // buscar la cámara principal en la escena
     }
 
-
-    // Update is called once per frame
+    // Update es llamado una vez por frame
     private void HandleMovement()
     {
-        // Move player in the direction camera is facing and multiply for VerticalInput
-        // W(back) & S(forward) keys
         moveDirection = cameraObject.forward * inputManager.verticalInput;
 
-        // add the horizontal input to the moveDirection. A (left) y D (right)
-        moveDirection += moveDirection + cameraObject.right * inputManager.horizontalInput;
+        // Agregar el input horizontal a la dirección de movimiento. A (izquierda) y D (derecha)
+        moveDirection = moveDirection + cameraObject.right * inputManager.horizontalInput; // Corrección del nombre de la variable
 
-        moveDirection.y = 0; // so the player cannot move to the sky!
+        moveDirection.y = 0; // para que el jugador no pueda moverse hacia el cielo
 
-        // Keep the vector the same direction but changes its magnitude to 1 to keep the same acceleration
-        // in all directions, even in diagonals.
+        // Mantener el vector en la misma dirección pero cambiar su magnitud a 1 para mantener la misma aceleración
+        // en todas las direcciones, incluso en diagonales.
         moveDirection.Normalize();
 
-        moveDirection *= movementSpeed; // to control the speed of the movement from the editor
 
-        // store the final direction and speed of the movement in a new variable movementVelocity
+        if (isRunning)
+
+        {
+            moveDirection = moveDirection * runningSpeed;
+        }
+        else
+
+
+        {
+            moveDirection = moveDirection * walkingSpeed;
+
+        }
+
+        // para controlar la velocidad de movimiento desde el editor
+
+        // almacenar la dirección final y la velocidad del movimiento en una nueva variable movementVelocity
         Vector3 movementVelocity = moveDirection;
 
-        // applies the previous speed calculation to the velocity of the rigidbody
+        // aplicar el cálculo de velocidad previo a la velocidad del rigidbody
         playerRigidbody.velocity = movementVelocity;
     }
 
-
-    private void HandleRotation() //"the idea is to face first the direction you want to move, and then move"
+    private void HandleRotation() //"la idea es enfrentar primero la dirección a la que quieres moverte, y luego moverte"
     {
-        Vector3 targetDirection = Vector3.zero; // a new variable to store the rotation the player will rotate
+        Vector3 targetDirection = Vector3.zero; // una nueva variable para almacenar la rotación a la que se girará el jugador
 
         targetDirection = cameraObject.forward * inputManager.verticalInput;
 
-        // add the horizontal input to the moveDirection. A (left) y D (right)
-        targetDirection = moveDirection + cameraObject.right * inputManager.horizontalInput;
+        // Agregar el input horizontal a la dirección de movimiento. A (izquierda) y D (derecha)
+        targetDirection += cameraObject.right * inputManager.horizontalInput; // Corrección del nombre de la variable
 
-        targetDirection.y = 0; // so the player cannot move to the sky!
+        targetDirection.y = 0; // para que el jugador no pueda moverse hacia el cielo
 
-        // keep the vector the same direction but changes its magnitude to 1 to
-        // keep the same acceleration in all directions, even in diagonals.
+        // Mantener el vector en la misma dirección pero cambiar su magnitud a 1 para
+        // mantener la misma aceleración en todas las direcciones, incluso en diagonales.
         targetDirection.Normalize();
 
-        // to look to our target rotation
+        // Para mirar hacia nuestra rotación objetivo
         Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
 
-        // Do the rotation between the current orientation and the target rotation using a rotationSpeed * frame independent
+        // Realizar la rotación entre la orientación actual y la rotación objetivo usando una velocidad de rotación independiente de frame
         Quaternion playerRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
 
-        transform.rotation = playerRotation; // applies the final rotation to the player
+        transform.rotation = playerRotation; // aplicar la rotación final al jugador
     }
-    
+
     public void HandleAllMovement()
     {
         HandleMovement();
