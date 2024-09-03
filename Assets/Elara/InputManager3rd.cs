@@ -12,12 +12,16 @@ public class InputManager3rd : MonoBehaviour
     public float horizontalInput;
 
     public bool shiftInput;
-    //public object Public { get; private set; }
+    public bool jumpInput; // Para el salto
+    public bool kickInput; // Cambiado de KickAttack para consistencia
+    public bool swordInput; // Para el ataque de espada
+
     private void Awake()
     {
         animatorManager = GetComponent<AnimatorManager3rd>();
         playerMovement = GetComponent<PlayerMovement3rd>();
     }
+
     private void OnEnable()
     {
         if (playerControls == null)
@@ -28,8 +32,14 @@ public class InputManager3rd : MonoBehaviour
             playerControls.PlayerActions.Shift.performed += i => shiftInput = true;
             playerControls.PlayerActions.Shift.canceled += i => shiftInput = false;
 
+            playerControls.PlayerActions.Space.performed += i => jumpInput = true; // Input de salto
+            //playerControls.PlayerActions.Space.canceled += i => jumpInput = false;
 
+            playerControls.PlayerActions.LeftButton.performed += i => kickInput = true; // Input de patada, cambiado de KickAttack
+            //playerControls.PlayerActions.LeftButton.canceled += i => kickInput = false;
 
+            playerControls.PlayerActions.RigthtButton.performed += i => swordInput = true; // Input de espada
+           // playerControls.PlayerActions.LeftButton.canceled += i => kickInput = false;
         }
         playerControls.Enable();
     }
@@ -46,31 +56,46 @@ public class InputManager3rd : MonoBehaviour
         verticalInput = movementInput.y;
         horizontalInput = movementInput.x; // Corrección del nombre de la variable
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
-     animatorManager.UpdateAnimatorValues(0, moveAmount, playerMovement.isRunning);
-       
+        animatorManager.UpdateAnimatorValues(0, moveAmount, playerMovement.isRunning);
     }
-    public void handleAllInpunts()
+
+    public void HandleAllInputs() // Cambiado el nombre del método para corregir el typo
     {
         HandleMovementInput();
-        HadleisRunningInput();
-
+        HandleRunningInput();
+        HandleActionInputs();
     }
 
-    private void HadleisRunningInput()
+    private void HandleActionInputs()
+    {
+        if (jumpInput)
+        {
+            animatorManager.PlayTargetAnimation("Jump", false); // Ejecutar la animación de salto
+            jumpInput = false;
+        }
 
+        if (kickInput) // Cambiado de KickAttack
+        {
+            animatorManager.PlayTargetAnimation("KickAttack", true); // Ejecutar la animación de patada
+            kickInput = false;
+        } 
+
+        if (swordInput)
+        {
+            animatorManager.PlayTargetAnimation("SwordAttack", true); // Ejecutar la animación de espada
+            swordInput = false;
+        }
+    }
+
+    private void HandleRunningInput() // Cambiado el nombre del método para corregir el typo
     {
         if (shiftInput && moveAmount > 0.5f)
-
         {
             playerMovement.isRunning = true;
         }
-
         else
         {
             playerMovement.isRunning = false;
         }
-
     }
 }
-
-

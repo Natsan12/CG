@@ -173,6 +173,33 @@ public partial class @PlayerControls3rd: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Space"",
+                    ""type"": ""Button"",
+                    ""id"": ""0421629c-61e1-4c4f-9a76-51d2878e3a6b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""LeftButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""8f36a0aa-14c2-4739-ba64-677ed284713e"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""RigthtButton"",
+                    ""type"": ""Button"",
+                    ""id"": ""0b067347-a881-466a-9d42-025b78c5fe7b"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -197,6 +224,39 @@ public partial class @PlayerControls3rd: IInputActionCollection2, IDisposable
                     ""action"": ""Shift"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f84fa8b2-d6e9-4d65-81b1-bbbf6d84ef92"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Space"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""34de2cd8-6ed4-41dc-8b3b-e8dfbd5ba615"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""LeftButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""6140c57a-810a-47b3-a7c4-fb63b05dc587"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""RigthtButton"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -209,6 +269,9 @@ public partial class @PlayerControls3rd: IInputActionCollection2, IDisposable
         // PlayerActions
         m_PlayerActions = asset.FindActionMap("PlayerActions", throwIfNotFound: true);
         m_PlayerActions_Shift = m_PlayerActions.FindAction("Shift", throwIfNotFound: true);
+        m_PlayerActions_Space = m_PlayerActions.FindAction("Space", throwIfNotFound: true);
+        m_PlayerActions_LeftButton = m_PlayerActions.FindAction("LeftButton", throwIfNotFound: true);
+        m_PlayerActions_RigthtButton = m_PlayerActions.FindAction("RigthtButton", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -317,11 +380,17 @@ public partial class @PlayerControls3rd: IInputActionCollection2, IDisposable
     private readonly InputActionMap m_PlayerActions;
     private List<IPlayerActionsActions> m_PlayerActionsActionsCallbackInterfaces = new List<IPlayerActionsActions>();
     private readonly InputAction m_PlayerActions_Shift;
+    private readonly InputAction m_PlayerActions_Space;
+    private readonly InputAction m_PlayerActions_LeftButton;
+    private readonly InputAction m_PlayerActions_RigthtButton;
     public struct PlayerActionsActions
     {
         private @PlayerControls3rd m_Wrapper;
         public PlayerActionsActions(@PlayerControls3rd wrapper) { m_Wrapper = wrapper; }
         public InputAction @Shift => m_Wrapper.m_PlayerActions_Shift;
+        public InputAction @Space => m_Wrapper.m_PlayerActions_Space;
+        public InputAction @LeftButton => m_Wrapper.m_PlayerActions_LeftButton;
+        public InputAction @RigthtButton => m_Wrapper.m_PlayerActions_RigthtButton;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -334,6 +403,15 @@ public partial class @PlayerControls3rd: IInputActionCollection2, IDisposable
             @Shift.started += instance.OnShift;
             @Shift.performed += instance.OnShift;
             @Shift.canceled += instance.OnShift;
+            @Space.started += instance.OnSpace;
+            @Space.performed += instance.OnSpace;
+            @Space.canceled += instance.OnSpace;
+            @LeftButton.started += instance.OnLeftButton;
+            @LeftButton.performed += instance.OnLeftButton;
+            @LeftButton.canceled += instance.OnLeftButton;
+            @RigthtButton.started += instance.OnRigthtButton;
+            @RigthtButton.performed += instance.OnRigthtButton;
+            @RigthtButton.canceled += instance.OnRigthtButton;
         }
 
         private void UnregisterCallbacks(IPlayerActionsActions instance)
@@ -341,6 +419,15 @@ public partial class @PlayerControls3rd: IInputActionCollection2, IDisposable
             @Shift.started -= instance.OnShift;
             @Shift.performed -= instance.OnShift;
             @Shift.canceled -= instance.OnShift;
+            @Space.started -= instance.OnSpace;
+            @Space.performed -= instance.OnSpace;
+            @Space.canceled -= instance.OnSpace;
+            @LeftButton.started -= instance.OnLeftButton;
+            @LeftButton.performed -= instance.OnLeftButton;
+            @LeftButton.canceled -= instance.OnLeftButton;
+            @RigthtButton.started -= instance.OnRigthtButton;
+            @RigthtButton.performed -= instance.OnRigthtButton;
+            @RigthtButton.canceled -= instance.OnRigthtButton;
         }
 
         public void RemoveCallbacks(IPlayerActionsActions instance)
@@ -365,5 +452,8 @@ public partial class @PlayerControls3rd: IInputActionCollection2, IDisposable
     public interface IPlayerActionsActions
     {
         void OnShift(InputAction.CallbackContext context);
+        void OnSpace(InputAction.CallbackContext context);
+        void OnLeftButton(InputAction.CallbackContext context);
+        void OnRigthtButton(InputAction.CallbackContext context);
     }
 }
