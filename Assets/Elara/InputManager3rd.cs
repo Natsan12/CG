@@ -39,7 +39,7 @@ public class InputManager3rd : MonoBehaviour
             //playerControls.PlayerActions.LeftButton.canceled += i => kickInput = false;
 
             playerControls.PlayerActions.RigthtButton.performed += i => swordInput = true; // Input de espada
-           // playerControls.PlayerActions.LeftButton.canceled += i => kickInput = false;
+           playerControls.PlayerActions.LeftButton.canceled += i => kickInput = false;
         }
         playerControls.Enable();
     }
@@ -52,14 +52,14 @@ public class InputManager3rd : MonoBehaviour
     // Propiedades para acceder a los inputs de movimiento vertical y horizontal
     private void HandleMovementInput()
     {
-        // Llamamos a otros métodos de manejo de inputs
+        // Llamamos a otros mï¿½todos de manejo de inputs
         verticalInput = movementInput.y;
-        horizontalInput = movementInput.x; // Corrección del nombre de la variable
+        horizontalInput = movementInput.x; // Correcciï¿½n del nombre de la variable
         moveAmount = Mathf.Clamp01(Mathf.Abs(horizontalInput) + Mathf.Abs(verticalInput));
         animatorManager.UpdateAnimatorValues(0, moveAmount, playerMovement.isRunning);
     }
 
-    public void HandleAllInputs() // Cambiado el nombre del método para corregir el typo
+    public void HandleAllInputs() // Cambiado el nombre del mï¿½todo para corregir el typo
     {
         HandleMovementInput();
         HandleRunningInput();
@@ -70,24 +70,24 @@ public class InputManager3rd : MonoBehaviour
     {
         if (jumpInput)
         {
-            animatorManager.PlayTargetAnimation("Jump", false); // Ejecutar la animación de salto
+            animatorManager.PlayTargetAnimation("Jump", false); // Ejecutar la animaciï¿½n de salto
             jumpInput = false;
         }
 
         if (kickInput) // Cambiado de KickAttack
         {
-            animatorManager.PlayTargetAnimation("KickAttack", true); // Ejecutar la animación de patada
+            animatorManager.PlayTargetAnimation("KickAttack", true); // Ejecutar la animaciï¿½n de patada
             kickInput = false;
         } 
 
         if (swordInput)
         {
-            animatorManager.PlayTargetAnimation("SwordAttack", true); // Ejecutar la animación de espada
+            animatorManager.PlayTargetAnimation("SwordAttack", true); // Ejecutar la animaciï¿½n de espada
             swordInput = false;
         }
     }
 
-    private void HandleRunningInput() // Cambiado el nombre del método para corregir el typo
+    private void HandleRunningInput() // Cambiado el nombre del mï¿½todo para corregir el typo
     {
         if (shiftInput && moveAmount > 0.5f)
         {
