@@ -6,7 +6,7 @@ public class EnemyAI : MonoBehaviour
     public Transform[] patrolPoints;  // Puntos de patrullaje
     public Transform target;  // El objetivo del enemigo (ej. el jugador)
     public float chaseRange = 10f;  // Rango de detección para perseguir
-    private NavMeshAgent agent;
+    public NavMeshAgent agent;
     private int currentPatrolIndex;
     private bool isChasing;
 
