@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         if (playerManager == null || playerMovement == null || inputManager == null ||
             animatorManager == null || playerControls == null || enemyAI == null)
         {
-            Debug.LogError("Faltan referencias en el GameManager");
+           /* Debug.LogError("Faltan referencias en el GameManager");*/
         }
 
         // Inicializar los sistemas de jugador y enemigo
