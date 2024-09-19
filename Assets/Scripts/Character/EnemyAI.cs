@@ -10,11 +10,11 @@ public class EnemyAI : MonoBehaviour
     public NavMeshAgent agent;
     private Animator animator;
 
-    public float detectionRange = 10f; // Distancia de detección del jugador
+    public float detectionRange = 10f; // Distancia de detecciï¿½n del jugador
     public float attackRange = 2f; // Distancia de ataque
     private int currentPatrolIndex;
 
-    // Variables para optimización de animaciones
+    // Variables para optimizaciï¿½n de animaciones
     private bool isWalking = false;
     private bool isIdle = true;
 
@@ -23,7 +23,7 @@ public class EnemyAI : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
 
-        // Iniciar el patrullaje si hay puntos disponibles y el agente está en la NavMesh
+        // Iniciar el patrullaje si hay puntos disponibles y el agente estï¿½ en la NavMesh
         if (patrolPoints.Length > 0 && agent.isOnNavMesh)
         {
             MoveToNextPatrolPoint();
@@ -32,26 +32,30 @@ public class EnemyAI : MonoBehaviour
 
     void Update()
     {
-        // Optimización: Calcular la distancia al jugador una sola vez y en base a distancias al cuadrado
+        // Calcular la distancia al jugador una sola vez y en base a distancias al cuadrado para optimizaciÃ³n
         float sqrDistanceToPlayer = (player.position - transform.position).sqrMagnitude;
-        float sqrDetectionRange = detectionRange * detectionRange;
-        float sqrAttackRange = attackRange * attackRange;
 
-        if (sqrDistanceToPlayer <= sqrAttackRange)
+        if (sqrDistanceToPlayer <= attackRange * attackRange)
         {
             AttackPlayer();
         }
-        else if (sqrDistanceToPlayer <= sqrDetectionRange)
+        else if (sqrDistanceToPlayer <= detectionRange * detectionRange)
         {
             ChasePlayer();
         }
         else
         {
+            // Reanudar el movimiento del agente si estaba detenido
+            if (agent.isStopped)
+            {
+                agent.isStopped = false;
+            }
+
             Patrol();
         }
     }
 
-    // Método para mover al enemigo a la siguiente posición de patrullaje
+    // Metodo para mover al enemigo a la siguiente posicion de patrullaje
     void MoveToNextPatrolPoint()
     {
         if (patrolPoints.Length == 0) return;
@@ -60,7 +64,7 @@ public class EnemyAI : MonoBehaviour
         MoveToPosition(patrolPoints[currentPatrolIndex].position);
     }
 
-    // Método para mover al enemigo a una posición específica
+    // Metodo para mover al enemigo a una posiciï¿½n especï¿½fica
     void MoveToPosition(Vector3 targetPosition)
     {
         if (agent.isOnNavMesh)
@@ -69,11 +73,11 @@ public class EnemyAI : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("El agente no está en la NavMesh.");
+            Debug.LogWarning("El agente no estï¿½ en la NavMesh.");
         }
     }
 
-    // Método para patrullar entre los puntos
+    // Metodo para patrullar entre los puntos
     void Patrol()
     {
         if (agent.remainingDistance < agent.stoppingDistance)
@@ -81,34 +85,34 @@ public class EnemyAI : MonoBehaviour
             MoveToNextPatrolPoint();
         }
 
-        UpdateAnimations(true); // Activar animación de caminar
+        UpdateAnimations(true); // Activar animaciï¿½n de caminar
     }
 
-    // Método para perseguir al jugador
+    // Mï¿½todo para perseguir al jugador
     void ChasePlayer()
     {
         MoveToPosition(player.position);
-        UpdateAnimations(true); // Activar animación de caminar
+        UpdateAnimations(true); // Activar animaciï¿½n de caminar
     }
 
-    // Método para atacar al jugador
+    // Mï¿½todo para atacar al jugador
     void AttackPlayer()
     {
         agent.isStopped = true; // Detener el movimiento
         Vector3 directionToPlayer = player.position - transform.position;
         transform.rotation = Quaternion.LookRotation(directionToPlayer); // Girar hacia el jugador
 
-        UpdateAnimations(false); // Desactivar animación de caminar
-        animator.SetTrigger("Attack"); // Activar animación de ataque
+        UpdateAnimations(false); // Desactivar animaciï¿½n de caminar
+        animator.SetTrigger("Attack"); // Activar animaciï¿½n de ataque
     }
 
-    // Método para cambiar las animaciones de caminar e idle según el estado actual
+    // Mï¿½todo para cambiar las animaciones de caminar e idle segï¿½n el estado actual
     void UpdateAnimations(bool walking)
     {
         SetAnimationState(walking, !walking); // Cambiar entre caminar e idle
     }
 
-    // Método que cambia el estado de animaciones si es necesario (evita llamadas repetitivas)
+    // Mï¿½todo que cambia el estado de animaciones si es necesario (evita llamadas repetitivas)
     void SetAnimationState(bool walking, bool idle)
     {
         if (isWalking != walking)
