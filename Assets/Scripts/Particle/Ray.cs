@@ -2,31 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ray : MonoBehaviour
+public class Rayo : MonoBehaviour
 {
     public Transform final; // El punto final del rayo
-    public int cantidadDePuntos; // Número de puntos en el rayo
-    public float dispersion; // La dispersión del rayo
-    public float frecuencia; // Frecuencia de actualización del rayo
-    public float distanciaMaxima = 10f; // Distancia máxima del rayo
-    public Transform jugador; // Referencia al jugador
-    public float distanciaActivacion = 5f; // Distancia para activar el ataque
+    public int cantidadDePuntos; // NÃºmero de puntos en el rayo
+    public float dispersion; // La dispersiÃ³n del rayo
+    public float frecuencia; // Frecuencia de actualizaciÃ³n del rayo
+    public float distanciaMaxima = 10f; // Distancia mÃ¡xima del rayo
 
     private LineRenderer line;
     private float tiempo = 0;
 
     void Start()
     {
-        line = GetLine();
+        line = GetComponent<LineRenderer>();
+        line.enabled = false; // Inicialmente, el rayo estÃ¡ desactivado
     }
 
     void Update()
     {
-        // Calculamos la distancia entre el rayo y el jugador
-        float distanciaAlJugador = Vector3.Distance(transform.position, jugador.position);
-
-        // Si el jugador está dentro de la distancia de activación
-        if (distanciaAlJugador <= distanciaActivacion)
+        if (line.enabled) // Solo actualiza si el rayo estÃ¡ activo
         {
             tiempo += Time.deltaTime;
 
@@ -37,21 +32,11 @@ public class Ray : MonoBehaviour
                 tiempo = 0;
             }
         }
-        else
-        {
-            // Si el jugador no está cerca, apagamos el rayo
-            line.enabled = false;
-        }
-    }
-
-    private LineRenderer GetLine()
-    {
-        return GetComponent<LineRenderer>();
     }
 
     private void ActualizarPuntos(LineRenderer line)
     {
-        // Actualizamos la posición del punto final multiplicado por la distancia máxima
+        // Actualizamos la posiciÃ³n del punto final multiplicado por la distancia mÃ¡xima
         Vector3 puntoFinal = final.localPosition.normalized * distanciaMaxima;
         List<Vector3> puntos = InterpolarPuntos(Vector3.zero, puntoFinal, cantidadDePuntos);
         line.positionCount = puntos.Count;
@@ -59,20 +44,36 @@ public class Ray : MonoBehaviour
         line.enabled = true; // Activamos el rayo si se ha actualizado
     }
 
-    private List<Vector3> InterpolarPuntos(Vector3 principio, Vector3 final, int totalPoints)
+    private List<Vector3> InterpolarPuntos(Vector3 principio, Vector3 final, int totalPuntos)
     {
         List<Vector3> list = new List<Vector3>();
-
-        for (int i = 0; i < totalPoints; i++)
+        for (int i = 0; i < totalPuntos; i++)
         {
-            list.Add(Vector3.Lerp(principio, final, (float)i / totalPoints) + DesfaseAleatorio());
+            list.Add(Vector3.Lerp(principio, final, (float)i / totalPuntos) + DesfaseAleatorio());
         }
-
         return list;
     }
 
     private Vector3 DesfaseAleatorio()
     {
         return Random.insideUnitSphere.normalized * Random.Range(0, dispersion);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        // Verificamos si el objeto que colisiona tiene la etiqueta "Player"
+        if (other.CompareTag("Player"))
+        {
+            line.enabled = true; // Activamos el rayo al entrar en contacto
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        // Desactivamos el rayo al salir del contacto
+        if (other.CompareTag("Player"))
+        {
+            line.enabled = false; // Desactivamos el rayo
+        }
     }
 }
